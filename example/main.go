@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
-	picoclient "pico_go/client"
+
+	picoclient "github.com/stipochka/pico_go/client"
 )
 
 func main() {

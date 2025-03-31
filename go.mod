@@ -1,4 +1,4 @@
-module pico_go
+module github.com/stipochka/pico_go
 
 go 1.24.0
 

@@ -11,8 +11,9 @@ package cwrapper
 import "C"
 import (
 	"errors"
-	picowriter "pico_go/internal/uart"
 	"unsafe"
+
+	picowriter "github.com/stipochka/pico_go/internal/uart"
 )
 
 type PlError int

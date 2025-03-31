@@ -2,8 +2,10 @@ package picoclient
 
 import (
 	"encoding/binary"
-	cwrapper "pico_go/internal/wrapper"
-	"pico_go/models"
+
+	"github.com/stipochka/pico_go/models"
+
+	cwrapper "github.com/stipochka/pico_go/internal/wrapper"
 )
 
 type Client struct {
