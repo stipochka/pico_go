@@ -26,7 +26,7 @@ func convertToResponseModel(buff []byte) *models.McuResponse {
 	var resp models.McuResponse
 	resp.FuncCode = uint8(buff[0])
 	resp.ErrCode = uint8(buff[1])
-	resp.Args = binary.BigEndian.Uint16(buff[2:4])
+	resp.Args = binary.LittleEndian.Uint16(buff[2:4])
 	resp.Buffer = buff[4 : len(buff)-2]
 	return &resp
 }
