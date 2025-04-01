@@ -11,6 +11,7 @@ package cwrapper
 import "C"
 import (
 	"errors"
+	"fmt"
 	"unsafe"
 
 	picowriter "github.com/stipochka/pico_go/internal/uart"
@@ -104,7 +105,7 @@ func NewGoWrapper(filename string) (*UARTWrapper, error) {
 
 func (u *UARTWrapper) WrapHeartbitRequest() ([]byte, error) {
 
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	errCode := C.heartbit_request((*C.uchar)(unsafe.Pointer(&buffer[0])), &dataSize)
@@ -131,7 +132,7 @@ func (u *UARTWrapper) WrapHeartbitRequest() ([]byte, error) {
 }
 
 func (u *UARTWrapper) WrapGetActualDataRequest(sensor_name string) ([]byte, error) {
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	cStr := C.CString(sensor_name)
@@ -160,7 +161,7 @@ func (u *UARTWrapper) WrapGetActualDataRequest(sensor_name string) ([]byte, erro
 }
 
 func (u *UARTWrapper) WrapGetHistoryDataRequest(sensor_name string, num uint16) ([]byte, error) {
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	cStr := C.CString(sensor_name)
@@ -190,7 +191,7 @@ func (u *UARTWrapper) WrapGetHistoryDataRequest(sensor_name string, num uint16) 
 }
 
 func (u *UARTWrapper) WrapGetSensorInfoRequest(sensor_name string) ([]byte, error) {
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	cStr := C.CString(sensor_name)
@@ -201,7 +202,6 @@ func (u *UARTWrapper) WrapGetSensorInfoRequest(sensor_name string) ([]byte, erro
 		return []byte{}, err
 	}
 	reqBuffer := C.GoBytes(unsafe.Pointer(&buffer[0]), C.int(dataSize))
-
 	err := u.Processor.Write(reqBuffer)
 	if err != nil {
 		return nil, err
@@ -220,7 +220,7 @@ func (u *UARTWrapper) WrapGetSensorInfoRequest(sensor_name string) ([]byte, erro
 }
 
 func (u *UARTWrapper) WrapGetMcuInfoRequest() ([]byte, error) {
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	errCode := C.get_mcu_info_request((*C.uchar)(unsafe.Pointer(&buffer[0])), &dataSize)
@@ -230,6 +230,7 @@ func (u *UARTWrapper) WrapGetMcuInfoRequest() ([]byte, error) {
 	reqBuffer := C.GoBytes(unsafe.Pointer(&buffer[0]), C.int(dataSize))
 
 	err := u.Processor.Write(reqBuffer)
+	fmt.Println(reqBuffer)
 	if err != nil {
 		return nil, err
 	}
@@ -246,7 +247,7 @@ func (u *UARTWrapper) WrapGetMcuInfoRequest() ([]byte, error) {
 }
 
 func (u *UARTWrapper) WrapSetReadingPeriodRequest(sensor_name string, delay uint16) ([]byte, error) {
-	var buffer [bufferSize]C.char
+	var buffer [bufferSize]C.uchar
 	dataSize := C.uint16_t(len(buffer))
 
 	cStr := C.CString(sensor_name)

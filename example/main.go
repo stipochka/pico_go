@@ -17,9 +17,10 @@ func main() {
 		log.Fatalf("failed to create client")
 	}
 
-	resp, err := client.GetHistoryDataRequest("temp0", 5)
+	resp, err := client.SetReadingPeriodRequest("temp0", 10)
 	if err != nil {
 		log.Fatal("error with heartbit_request", err)
 	}
 	fmt.Println(resp)
+	fmt.Println(string(resp.Buffer))
 }
